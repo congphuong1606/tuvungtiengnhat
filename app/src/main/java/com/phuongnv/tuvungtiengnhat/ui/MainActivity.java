@@ -2,10 +2,18 @@ package com.phuongnv.tuvungtiengnhat.ui;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.QuickContactBadge;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.phuongnv.tuvungtiengnhat.R;
 import com.phuongnv.tuvungtiengnhat.adapter.BaiAdapter;
@@ -19,6 +27,10 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity  implements CLickTuVungListenner{
     RecyclerView rcvTuVung;
     RecyclerView rcvBai;
+   private TextView tvTuVung;
+   private TextView tvkanj;
+   private TextView tvNghia;
+   private LinearLayout backdrop;
     private SQLiteDatabase database;
     private ArrayList<TuVung> tuVungs = new ArrayList<>();
     private TuVungAdapter tuvungAdapter;
@@ -26,6 +38,7 @@ public class MainActivity extends AppCompatActivity  implements CLickTuVungListe
 
     public static int index ;
     public static MainActivity mainActivity;
+    private BottomSheetBehavior<LinearLayout> bottomSheetBehavior;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,12 +49,57 @@ public class MainActivity extends AppCompatActivity  implements CLickTuVungListe
         setData();
         notifyData(1);
 
+        setBotomSHeet();
+
+
+    }
+
+    public  void showBTMSHeet(){
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+
+
+    }
+
+    private void setBotomSHeet() {
+        LinearLayout bottomSheetLayout= (LinearLayout) findViewById(R.id.linear_layout_bottom_sheet);
+        bottomSheetLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.e("kkk","h");
+            }
+        });
+       bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetLayout);
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+       bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+           @Override
+           public void onStateChanged(@NonNull View view, int state) {
+               switch (state){
+                   case BottomSheetBehavior.STATE_EXPANDED:
+                       backdrop.setVisibility(View.VISIBLE);
+                       break;
+                  default:
+                       backdrop.setVisibility(View.GONE);
+                       break;
+               }
+           }
+
+           @Override
+           public void onSlide(@NonNull View view, float v) {
+
+           }
+       });
+
 
     }
 
     private void initView() {
         rcvTuVung =(RecyclerView) findViewById(R.id.rcv_tuvung);
         rcvBai =(RecyclerView) findViewById(R.id.rcv_bai);
+        tvTuVung =(TextView) findViewById(R.id.btn_tv_tuvung);
+        tvkanj =(TextView) findViewById(R.id.btn_tv_kanj);
+        tvNghia =(TextView) findViewById(R.id.btn_tv_nghia);
+        backdrop =(LinearLayout) findViewById(R.id.backdrop);
+
     }
 
     private void setData() {
@@ -89,13 +147,18 @@ public class MainActivity extends AppCompatActivity  implements CLickTuVungListe
 
     }
 
-    @Override
-    public void onClick(String path, String name) {
-
-    }
 
     public void notifyData(Integer integer) {
         index=integer;
         readData(index);
+    }
+
+    @Override
+    public void onClick(TuVung tuVung) {
+        tvTuVung.setText(tuVung.getTuvung());
+        tvkanj.setText(tuVung.getKanj());
+        tvNghia.setText(tuVung.getNghia());
+        showBTMSHeet();
+
     }
 }

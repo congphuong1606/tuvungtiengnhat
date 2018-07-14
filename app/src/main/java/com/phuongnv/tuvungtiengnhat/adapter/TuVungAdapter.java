@@ -85,8 +85,8 @@ public class TuVungAdapter extends RecyclerView.Adapter<TuVungAdapter.ViewHolder
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mListener.onClick(tuvungs.get(getAdapterPosition()).getTuvung(),
-                            tuvungs.get(getAdapterPosition()).getNghia());
+                    mListener.onClick(tuvungs.get(getAdapterPosition()));
+
                 }
             });
 
