@@ -10,8 +10,10 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.QuickContactBadge;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +29,8 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity  implements CLickTuVungListenner{
     RecyclerView rcvTuVung;
     RecyclerView rcvBai;
+    Button btnSound;
+    Button btnCloseBS;
    private TextView tvTuVung;
    private TextView tvkanj;
    private TextView tvNghia;
@@ -38,7 +42,8 @@ public class MainActivity extends AppCompatActivity  implements CLickTuVungListe
 
     public static int index ;
     public static MainActivity mainActivity;
-    private BottomSheetBehavior<LinearLayout> bottomSheetBehavior;
+    private BottomSheetBehavior<RelativeLayout> bottomSheetBehavior;
+    private RelativeLayout bottomSheetLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +55,24 @@ public class MainActivity extends AppCompatActivity  implements CLickTuVungListe
         notifyData(1);
 
         setBotomSHeet();
+        setOnClick();
 
 
+    }
+
+    private void setOnClick() {
+        bottomSheetLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.e("kkk","h");
+            }
+        });
+        btnCloseBS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            }
+        });
     }
 
     public  void showBTMSHeet(){
@@ -61,13 +82,7 @@ public class MainActivity extends AppCompatActivity  implements CLickTuVungListe
     }
 
     private void setBotomSHeet() {
-        LinearLayout bottomSheetLayout= (LinearLayout) findViewById(R.id.linear_layout_bottom_sheet);
-        bottomSheetLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.e("kkk","h");
-            }
-        });
+      bottomSheetLayout= (RelativeLayout) findViewById(R.id.linear_layout_bottom_sheet);
        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetLayout);
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
        bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
@@ -99,7 +114,8 @@ public class MainActivity extends AppCompatActivity  implements CLickTuVungListe
         tvkanj =(TextView) findViewById(R.id.btn_tv_kanj);
         tvNghia =(TextView) findViewById(R.id.btn_tv_nghia);
         backdrop =(LinearLayout) findViewById(R.id.backdrop);
-
+        btnSound =(Button) findViewById(R.id.btn_sound);
+        btnCloseBS =(Button) findViewById(R.id.btn_close_btm_sheet);
     }
 
     private void setData() {
