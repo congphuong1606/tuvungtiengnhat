@@ -2,10 +2,22 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-
+    android:background="#f4fdfa"
 
     android:layout_height="wrap_content">
+    <TextView
+        android:gravity="center|right"
+        android:paddingRight="50dp"
+        android:textColor="#dfdddd"
+        android:id="@+id/tv_kanj"
+        android:text="私"
+        android:lines="1"
+        android:ellipsize="end"
+        android:textSize="30sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
     <LinearLayout
+
         android:id="@+id/ln"
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -13,7 +25,7 @@
 
 
     <LinearLayout
-        android:background="#f4fdfa"
+
         android:padding="5dp"
         android:layout_width="match_parent"
         android:orientation="horizontal"
@@ -41,6 +53,8 @@
             android:id="@+id/tv_tuvung"
             android:layout_weight="0.4"
             android:text="わたし"
+            android:lines="1"
+            android:ellipsize="end"
             android:textStyle="bold"
             android:textSize="20sp"
             android:layout_width="match_parent"
@@ -53,7 +67,6 @@
         android:ellipsize="end"
         android:paddingLeft="5dp"
         android:paddingBottom="5dp"
-        android:background="#f4fdfa"
         android:textColor="#545454"
         android:id="@+id/tv_nghia"
         android:layout_weight="0.6"
@@ -63,15 +76,7 @@
         android:layout_height="wrap_content" />
     </LinearLayout>
 
-    <TextView
-        android:gravity="center|right"
-        android:paddingRight="50dp"
-        android:textColor="#dfdddd"
-        android:id="@+id/tv_kanj"
-        android:text="私"
-        android:textSize="30sp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+
 
     <View
         android:layout_below="@+id/ln"
