@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:orientation="vertical"
+
 
     android:layout_height="wrap_content">
+    <LinearLayout
+        android:id="@+id/ln"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
     <LinearLayout
         android:background="#f4fdfa"
         android:padding="5dp"
@@ -12,6 +19,7 @@
         android:orientation="horizontal"
         android:layout_height="wrap_content">
         <TextView
+
             android:visibility="gone"
             android:id="@+id/tv_stt"
             android:layout_weight="0.9"
@@ -19,25 +27,25 @@
             android:textColor="@color/colorAccent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-
+        <!--<TextView-->
+              <!--android:maxWidth="200dp"-->
+            <!--android:visibility="gone"-->
+            <!--android:textColor="#616060"-->
+            <!--android:id="@+id/tv_kanj"-->
+            <!--android:text="私"-->
+            <!--android:textSize="16sp"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content" />-->
         <TextView
-            android:textColor="#616060"
+            android:textColor="#1d2c5e"
             android:id="@+id/tv_tuvung"
             android:layout_weight="0.4"
             android:text="わたし"
-            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textSize="20sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-        <TextView
-            android:visibility="gone"
-            android:textColor="#616060"
-            android:gravity="right"
-            android:id="@+id/tv_kanj"
-            android:layout_weight="0.7"
-            android:text="私"
-            android:textSize="16sp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+
 
     </LinearLayout>
     <TextView
@@ -46,12 +54,27 @@
         android:paddingLeft="5dp"
         android:paddingBottom="5dp"
         android:background="#f4fdfa"
+        android:textColor="#545454"
         android:id="@+id/tv_nghia"
         android:layout_weight="0.6"
+        android:textSize="18sp"
         android:text="tôi, mình,..sfdnvsdivdfivdfivfdivbfvbhfdbvhfvbhfvbfhvbfhbfhvbfhvbfh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <TextView
+        android:gravity="center|right"
+        android:paddingRight="50dp"
+        android:textColor="#dfdddd"
+        android:id="@+id/tv_kanj"
+        android:text="私"
+        android:textSize="30sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <View
+        android:layout_below="@+id/ln"
         android:background="#f5f5f5"
         android:layout_width="match_parent"
         android:layout_height="1dp"/>
@@ -59,4 +82,4 @@
 
 
 
-</LinearLayout>
+</RelativeLayout>
