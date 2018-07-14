@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="70dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <View
+        android:id="@+id/v_top"
+        android:layout_above="@+id/cimv_bai"
+        android:layout_centerHorizontal="true"
+        android:background="#d9d9d9"
+        android:layout_width="3dp"
+        android:layout_height="match_parent">
+
+    </View>
+    <de.hdodenhof.circleimageview.CircleImageView
+        app:civ_border_color="#d9d9d9"
+        app:civ_border_width="2dp"
+        android:id="@+id/cimv_bai"
+        android:src="@drawable/click"
+        android:layout_width="30dp"
+        android:layout_centerInParent="true"
+        android:layout_height="30dp" />
+    <TextView
+        android:id="@+id/tv_number"
+        android:gravity="center"
+        android:text="1"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#fff"
+        android:layout_width="30dp"
+        android:layout_centerInParent="true"
+        android:layout_height="30dp" />
+    <View
+        android:id="@+id/v_btm"
+        android:layout_below="@+id/cimv_bai"
+        android:layout_centerHorizontal="true"
+        android:background="#d9d9d9"
+        android:layout_width="3dp"
+        android:layout_height="match_parent">
+
+    </View>
+
+</RelativeLayout>

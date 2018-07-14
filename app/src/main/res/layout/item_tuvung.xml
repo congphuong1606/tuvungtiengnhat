@@ -29,6 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <TextView
+            android:visibility="gone"
             android:textColor="#616060"
             android:gravity="right"
             android:id="@+id/tv_kanj"

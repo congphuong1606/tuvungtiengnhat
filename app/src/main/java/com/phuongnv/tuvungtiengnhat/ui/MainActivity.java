@@ -8,6 +8,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.phuongnv.tuvungtiengnhat.R;
+import com.phuongnv.tuvungtiengnhat.adapter.BaiAdapter;
 import com.phuongnv.tuvungtiengnhat.adapter.TuVungAdapter;
 import com.phuongnv.tuvungtiengnhat.data.TuVung;
 import com.phuongnv.tuvungtiengnhat.event.CLickTuVungListenner;
@@ -17,20 +18,30 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity  implements CLickTuVungListenner{
     RecyclerView rcvTuVung;
+    RecyclerView rcvBai;
     private SQLiteDatabase database;
     private ArrayList<TuVung> tuVungs = new ArrayList<>();
     private TuVungAdapter tuvungAdapter;
+    private BaiAdapter baiAdapter;
+
+    public static int index ;
+    public static MainActivity mainActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mainActivity=this;
         initView();
         setData();
+        notifyData(1);
+
+
     }
 
     private void initView() {
         rcvTuVung =(RecyclerView) findViewById(R.id.rcv_tuvung);
+        rcvBai =(RecyclerView) findViewById(R.id.rcv_bai);
     }
 
     private void setData() {
@@ -39,7 +50,15 @@ public class MainActivity extends AppCompatActivity  implements CLickTuVungListe
         rcvTuVung.setHasFixedSize(true);
         tuvungAdapter = new TuVungAdapter(tuVungs,this);
         rcvTuVung.setAdapter(tuvungAdapter);
-        readData(1);
+
+
+        rcvBai.setLayoutManager(new
+                GridLayoutManager(this, 1));
+        rcvBai.setHasFixedSize(true);
+        baiAdapter = new BaiAdapter(this);
+        rcvBai.setAdapter(baiAdapter);
+        rcvBai.smoothScrollToPosition(0);
+
 
     }
 
@@ -73,5 +92,10 @@ public class MainActivity extends AppCompatActivity  implements CLickTuVungListe
     @Override
     public void onClick(String path, String name) {
 
+    }
+
+    public void notifyData(Integer integer) {
+        index=integer;
+        readData(index);
     }
 }
