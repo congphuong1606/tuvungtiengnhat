@@ -10,14 +10,49 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <RelativeLayout
+            android:id="@+id/l_toolbar"
+            android:background="@color/colorPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize">
+            <TextView
+                android:id="@+id/tv_tenbai"
+            android:text="Mina no nihongo"
+                android:textColor="#fff"
+            android:layout_marginLeft="10dp"
+                android:textSize="20sp"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+            <TextView
+                android:layout_below="@id/tv_tenbai"
+                android:text="(Mina no nihongo)"
+                android:textColor="#e6e6e6"
+                android:layout_marginLeft="10dp"
+                android:textSize="10sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:backgroundTint="#fff"
+                android:layout_centerVertical="true"
+                android:id="@+id/btn_sound_bai"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/ic_play"
+                android:layout_width="40dp"
+                android:layout_marginRight="10dp"
+                android:layout_height="40dp" />
+        </RelativeLayout>
 
         <android.support.v7.widget.RecyclerView
+            android:layout_below="@+id/l_toolbar"
             android:id="@+id/rcv_tuvung"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
         </android.support.v7.widget.RecyclerView>
         <android.support.v7.widget.RecyclerView
+            android:layout_below="@+id/l_toolbar"
             android:id="@+id/rcv_bai"
             android:layout_alignParentRight="true"
             android:layout_width="50dp"
@@ -29,7 +64,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
             android:orientation="vertical"
             android:visibility="gone"
             android:id="@+id/backdrop"
-            android:background="#9b2b2b2b"
+            android:background="#b32b2b2b"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -61,7 +96,6 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="match_parent" />
           <TextView
-              android:paddingRight="70dp"
               android:gravity="center"
               android:id="@+id/btn_tv_kanj"
               android:textSize="20sp"

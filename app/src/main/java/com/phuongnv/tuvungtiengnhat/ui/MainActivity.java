@@ -2,6 +2,8 @@ package com.phuongnv.tuvungtiengnhat.ui;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.media.MediaPlayer;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AppCompatActivity;
@@ -9,10 +11,10 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.QuickContactBadge;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,24 +28,29 @@ import com.phuongnv.tuvungtiengnhat.utils.Database;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity  implements CLickTuVungListenner{
-    RecyclerView rcvTuVung;
-    RecyclerView rcvBai;
-    Button btnSound;
-    Button btnCloseBS;
-   private TextView tvTuVung;
-   private TextView tvkanj;
-   private TextView tvNghia;
-   private LinearLayout backdrop;
-    private SQLiteDatabase database;
-    private ArrayList<TuVung> tuVungs = new ArrayList<>();
-    private TuVungAdapter tuvungAdapter;
-    private BaiAdapter baiAdapter;
+public class MainActivity extends AppCompatActivity  implements CLickTuVungListenner, View.OnClickListener, View.OnTouchListener, MediaPlayer.OnCompletionListener, MediaPlayer.OnBufferingUpdateListener {
+        RecyclerView rcvTuVung;
+        RecyclerView rcvBai;
+        Button btnSound;
+        Button btnCloseBS;
+        Button btnSoundBai;
+    private TextView tvTenBai;
+    private TextView tvTuVung;
+    private TextView tvkanj;
+    private TextView tvNghia;
+    private LinearLayout backdrop;
+        private SQLiteDatabase database;
+        private ArrayList<TuVung> tuVungs = new ArrayList<>();
+        private TuVungAdapter tuvungAdapter;
+        private BaiAdapter baiAdapter;
 
-    public static int index ;
-    public static MainActivity mainActivity;
-    private BottomSheetBehavior<RelativeLayout> bottomSheetBehavior;
-    private RelativeLayout bottomSheetLayout;
+        public static int index ;
+        public static MainActivity mainActivity;
+        private BottomSheetBehavior<RelativeLayout> bottomSheetBehavior;
+        private RelativeLayout bottomSheetLayout;
+    private MediaPlayer mediaPlayer;
+    private int mediaFileLengthInMilliseconds;
+    private final Handler handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +61,12 @@ public class MainActivity extends AppCompatActivity  implements CLickTuVungListe
         setData();
         notifyData(1);
 
-        setBotomSHeet();
+        setBotomSheet();
+
+        mediaPlayer = new MediaPlayer();
+        mediaPlayer.setOnBufferingUpdateListener(this);
+        mediaPlayer.setOnCompletionListener(this);
+
         setOnClick();
 
 
@@ -73,6 +85,44 @@ public class MainActivity extends AppCompatActivity  implements CLickTuVungListe
                 bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
             }
         });
+        btnSound.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               Toast.makeText(MainActivity.this,"CHỨC NĂNG NÀY ĐANG ĐƯỢC PHÁT TRIỂN",Toast.LENGTH_LONG).show();
+            }
+        });
+        btnSoundBai.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(MainActivity.this,"CHỨC NĂNG NÀY ĐANG ĐƯỢC PHÁT TRIỂN",Toast.LENGTH_LONG).show();
+                if(index==1){
+                    playMp3(index);
+                }
+            }
+        });
+    }
+
+    private void playMp3(int index) {
+
+
+        try {
+            mediaPlayer.setDataSource("http://eup.mobi/apps/mina/listen/1%20-%201%20-%20Kotoba.mp3"); // setup song from https://www.hrupin.com/wp-content/uploads/mp3/testsong_20_sec.mp3 URL to mediaplayer data source
+            mediaPlayer.prepare(); // you must call this method after setup the datasource in setDataSource method. After calling prepare() the instance of MediaPlayer starts load data from URL to internal buffer.
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        mediaFileLengthInMilliseconds = mediaPlayer.getDuration(); // gets the song length in milliseconds from URL
+
+        if(!mediaPlayer.isPlaying()){
+            mediaPlayer.start();
+            btnSoundBai.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_pause));
+//                buttonPlayPause.setImageResource(R.drawable.button_pause);
+        }else {
+            btnSoundBai.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_play));
+            mediaPlayer.pause();
+//                buttonPlayPause.setImageResource(R.drawable.button_play);
+        }
     }
 
     public  void showBTMSHeet(){
@@ -81,7 +131,7 @@ public class MainActivity extends AppCompatActivity  implements CLickTuVungListe
 
     }
 
-    private void setBotomSHeet() {
+    private void setBotomSheet() {
       bottomSheetLayout= (RelativeLayout) findViewById(R.id.linear_layout_bottom_sheet);
        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetLayout);
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
@@ -113,9 +163,11 @@ public class MainActivity extends AppCompatActivity  implements CLickTuVungListe
         tvTuVung =(TextView) findViewById(R.id.btn_tv_tuvung);
         tvkanj =(TextView) findViewById(R.id.btn_tv_kanj);
         tvNghia =(TextView) findViewById(R.id.btn_tv_nghia);
+        tvTenBai =(TextView) findViewById(R.id.tv_tenbai);
         backdrop =(LinearLayout) findViewById(R.id.backdrop);
         btnSound =(Button) findViewById(R.id.btn_sound);
         btnCloseBS =(Button) findViewById(R.id.btn_close_btm_sheet);
+        btnSoundBai =(Button) findViewById(R.id.btn_sound_bai);
     }
 
     private void setData() {
@@ -166,6 +218,7 @@ public class MainActivity extends AppCompatActivity  implements CLickTuVungListe
 
     public void notifyData(Integer integer) {
         index=integer;
+        tvTenBai.setText("Từ vựng bài "+ index);
         readData(index);
     }
 
@@ -176,5 +229,25 @@ public class MainActivity extends AppCompatActivity  implements CLickTuVungListe
         tvNghia.setText(tuVung.getNghia());
         showBTMSHeet();
 
+    }
+
+    @Override
+    public void onBufferingUpdate(MediaPlayer mediaPlayer, int i) {
+
+    }
+
+    @Override
+    public void onCompletion(MediaPlayer mediaPlayer) {
+
+    }
+
+    @Override
+    public void onClick(View view) {
+
+    }
+
+    @Override
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+        return false;
     }
 }
