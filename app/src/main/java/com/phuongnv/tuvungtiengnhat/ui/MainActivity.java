@@ -1,12 +1,15 @@
 package com.phuongnv.tuvungtiengnhat.ui;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,6 +27,9 @@ import android.widget.Toast;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 
+import com.nightonke.boommenu.BoomButtons.HamButton;
+import com.nightonke.boommenu.BoomButtons.OnBMClickListener;
+import com.nightonke.boommenu.BoomMenuButton;
 import com.phuongnv.tuvungtiengnhat.R;
 import com.phuongnv.tuvungtiengnhat.adapter.BaiAdapter;
 import com.phuongnv.tuvungtiengnhat.adapter.TuVungAdapter;
@@ -57,7 +63,10 @@ public class MainActivity extends AppCompatActivity  implements CLickTuVungListe
     private int mediaFileLengthInMilliseconds;
     private final Handler handler = new Handler();
     private SeekBar seekBarProgress;
+    private BoomMenuButton bmb;
 
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +78,7 @@ public class MainActivity extends AppCompatActivity  implements CLickTuVungListe
 
         mainActivity=this;
         initView();
+
         setData();
         notifyData(1);
 
@@ -166,6 +176,7 @@ public class MainActivity extends AppCompatActivity  implements CLickTuVungListe
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void initView() {
         rcvTuVung =(RecyclerView) findViewById(R.id.rcv_tuvung);
         rcvBai =(RecyclerView) findViewById(R.id.rcv_bai);
@@ -189,6 +200,54 @@ public class MainActivity extends AppCompatActivity  implements CLickTuVungListe
 //                return false;
 //            }
 //        });
+
+        bmb =(BoomMenuButton) findViewById(R.id.btn_menu);
+        for (int i = 0; i < bmb.getPiecePlaceEnum().pieceNumber(); i++) {
+            HamButton.Builder builder = new HamButton.Builder();
+            switch (i){
+                case 0:
+                    builder.normalImageRes(R.drawable.ic_create_black_24dp)
+                            .normalText("Kiểm tra từ vựng")
+                            .subNormalText("Luyện nhớ từ vựng");
+                    break;
+                case 1:
+                    builder.normalImageRes(R.drawable.ic_test)
+                            .normalText("Kanj N5")
+                            .subNormalText("Xem 103 hán tự n5");
+                    break;
+                case 2:
+                    builder.normalImageRes(R.drawable.btn_unclick)
+                            .normalText("Đang phát triển")
+                            .subNormalText(".........");
+                    break;
+                case 3:
+                    builder.normalImageRes(R.drawable.btn_unclick)
+                            .normalText("Đang phát triển")
+                            .subNormalText(".........");
+                    break;
+            }
+            builder.listener(new OnBMClickListener() {
+                @Override
+                public void onBoomButtonClick(int index) {
+                    switch (index){
+                        case 0:
+                            break;
+                        case 2:
+
+                            break;
+                        case 1:
+
+                            startActivity(new Intent(MainActivity.this,KanjActivity.class));
+                            break;
+                        case 3:
+
+                            break;
+                    }
+                }
+            });
+            bmb.addBuilder(builder);
+
+        }
     }
 
     private void setData() {
