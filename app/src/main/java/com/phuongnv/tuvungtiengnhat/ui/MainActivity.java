@@ -2,6 +2,8 @@ package com.phuongnv.tuvungtiengnhat.ui;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -16,8 +18,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 
 import com.phuongnv.tuvungtiengnhat.R;
 import com.phuongnv.tuvungtiengnhat.adapter.BaiAdapter;
@@ -28,7 +33,7 @@ import com.phuongnv.tuvungtiengnhat.utils.Database;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity  implements CLickTuVungListenner, View.OnClickListener, View.OnTouchListener, MediaPlayer.OnCompletionListener, MediaPlayer.OnBufferingUpdateListener {
+public class MainActivity extends AppCompatActivity  implements CLickTuVungListenner, OnClickListener, MediaPlayer.OnCompletionListener, MediaPlayer.OnBufferingUpdateListener {
         RecyclerView rcvTuVung;
         RecyclerView rcvBai;
         Button btnSound;
@@ -51,11 +56,17 @@ public class MainActivity extends AppCompatActivity  implements CLickTuVungListe
     private MediaPlayer mediaPlayer;
     private int mediaFileLengthInMilliseconds;
     private final Handler handler = new Handler();
+    private SeekBar seekBarProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mediaPlayer = new MediaPlayer();
+        mediaPlayer.setOnBufferingUpdateListener(this);
+        mediaPlayer.setOnCompletionListener(this);
+
         mainActivity=this;
         initView();
         setData();
@@ -63,9 +74,7 @@ public class MainActivity extends AppCompatActivity  implements CLickTuVungListe
 
         setBotomSheet();
 
-        mediaPlayer = new MediaPlayer();
-        mediaPlayer.setOnBufferingUpdateListener(this);
-        mediaPlayer.setOnCompletionListener(this);
+
 
         setOnClick();
 
@@ -94,19 +103,17 @@ public class MainActivity extends AppCompatActivity  implements CLickTuVungListe
         btnSoundBai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this,"CHỨC NĂNG NÀY ĐANG ĐƯỢC PHÁT TRIỂN",Toast.LENGTH_LONG).show();
-                if(index==1){
-                    playMp3(index);
-                }
+//                Toast.makeText(MainActivity.this,"CHỨC NĂNG NÀY ĐANG ĐƯỢC PHÁT TRIỂN",Toast.LENGTH_LONG).show();
+                playMp3(index);
+
             }
         });
     }
 
     private void playMp3(int index) {
-
-
+        String src="http://eup.mobi/apps/mina/listen/"+index+" - 1 - Kotoba.mp3";
         try {
-            mediaPlayer.setDataSource("http://eup.mobi/apps/mina/listen/1%20-%201%20-%20Kotoba.mp3"); // setup song from https://www.hrupin.com/wp-content/uploads/mp3/testsong_20_sec.mp3 URL to mediaplayer data source
+            mediaPlayer.setDataSource(src); // setup song from https://www.hrupin.com/wp-content/uploads/mp3/testsong_20_sec.mp3 URL to mediaplayer data source
             mediaPlayer.prepare(); // you must call this method after setup the datasource in setDataSource method. After calling prepare() the instance of MediaPlayer starts load data from URL to internal buffer.
         } catch (Exception e) {
             e.printStackTrace();
@@ -116,6 +123,7 @@ public class MainActivity extends AppCompatActivity  implements CLickTuVungListe
 
         if(!mediaPlayer.isPlaying()){
             mediaPlayer.start();
+            seekBarProgress.setVisibility(View.VISIBLE);
             btnSoundBai.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_pause));
 //                buttonPlayPause.setImageResource(R.drawable.button_pause);
         }else {
@@ -123,6 +131,7 @@ public class MainActivity extends AppCompatActivity  implements CLickTuVungListe
             mediaPlayer.pause();
 //                buttonPlayPause.setImageResource(R.drawable.button_play);
         }
+        primarySeekBarProgressUpdater();
     }
 
     public  void showBTMSHeet(){
@@ -168,6 +177,18 @@ public class MainActivity extends AppCompatActivity  implements CLickTuVungListe
         btnSound =(Button) findViewById(R.id.btn_sound);
         btnCloseBS =(Button) findViewById(R.id.btn_close_btm_sheet);
         btnSoundBai =(Button) findViewById(R.id.btn_sound_bai);
+        seekBarProgress = (SeekBar)findViewById(R.id.seekBar);
+
+
+        seekBarProgress.setMax(99); // It means 100% .0-99
+//        seekBarProgress.getProgressDrawable().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
+//        seekBarProgress.getThumb().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
+//        seekBarProgress.setOnTouchListener(new OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View view, MotionEvent motionEvent) {
+//                return false;
+//            }
+//        });
     }
 
     private void setData() {
@@ -217,9 +238,22 @@ public class MainActivity extends AppCompatActivity  implements CLickTuVungListe
 
 
     public void notifyData(Integer integer) {
-        index=integer;
-        tvTenBai.setText("Từ vựng bài "+ index);
-        readData(index);
+        if(index!=integer){
+            index=integer;
+            if(mediaPlayer.isPlaying()){
+                btnSoundBai.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_play));
+                mediaPlayer.stop();
+                seekBarProgress.setVisibility(View.GONE);
+            }
+            tvTenBai.setText("Từ vựng bài "+ index);
+            mediaPlayer = new MediaPlayer();
+            mediaPlayer.setOnBufferingUpdateListener(this);
+            mediaPlayer.setOnCompletionListener(this);
+            readData(index);
+
+        }
+
+
     }
 
     @Override
@@ -232,12 +266,14 @@ public class MainActivity extends AppCompatActivity  implements CLickTuVungListe
     }
 
     @Override
-    public void onBufferingUpdate(MediaPlayer mediaPlayer, int i) {
-
+    public void onBufferingUpdate(MediaPlayer mediaPlayer, int percent) {
+        seekBarProgress.setSecondaryProgress(percent);
     }
 
     @Override
     public void onCompletion(MediaPlayer mediaPlayer) {
+        seekBarProgress.setVisibility(View.GONE);
+        btnSoundBai.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_play));
 
     }
 
@@ -246,8 +282,22 @@ public class MainActivity extends AppCompatActivity  implements CLickTuVungListe
 
     }
 
-    @Override
-    public boolean onTouch(View view, MotionEvent motionEvent) {
-        return false;
+
+
+    /** Method which updates the SeekBar primary progress by current song playing position*/
+    private void primarySeekBarProgressUpdater() {
+        float value=(float)mediaPlayer.getCurrentPosition()/mediaFileLengthInMilliseconds;
+        Log.e("%%%",String.valueOf((int)(value*100)));
+        seekBarProgress.setProgress((int)(value*100));
+        if (mediaPlayer.isPlaying()) {
+            Runnable notification = new Runnable() {
+                public void run() {
+                    primarySeekBarProgressUpdater();
+                }
+            };
+            handler.postDelayed(notification,1000);
+        }
     }
+
+
 }

@@ -13,7 +13,7 @@
         android:text="私"
         android:lines="1"
         android:ellipsize="end"
-        android:textSize="30sp"
+        android:textSize="24sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <LinearLayout
@@ -71,6 +71,7 @@
         android:id="@+id/tv_nghia"
         android:layout_weight="0.6"
         android:textSize="18sp"
+        android:paddingRight="50dp"
         android:text="tôi, mình,..sfdnvsdivdfivdfivfdivbfvbhfdbvhfvbhfvbfhvbfhbfhvbfhvbfh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
