@@ -7,17 +7,23 @@ package com.phuongnv.tuvungtiengnhat.data;
 public class TuVung {
     int id;
     String tuvung;
+    String romaji;
+    String sound;
     String kanj;
+    String hanViet;
     String nghia;
     int bai;
 
     public TuVung() {
     }
 
-    public TuVung(int id, String tuvung, String kanj, String nghia, int bai) {
+    public TuVung(int id, String tuvung, String romaji, String sound, String kanj, String hanViet, String nghia, int bai) {
         this.id = id;
         this.tuvung = tuvung;
+        this.romaji = romaji;
+        this.sound = sound;
         this.kanj = kanj;
+        this.hanViet = hanViet;
         this.nghia = nghia;
         this.bai = bai;
     }
@@ -38,12 +44,36 @@ public class TuVung {
         this.tuvung = tuvung;
     }
 
+    public String getRomaji() {
+        return romaji;
+    }
+
+    public void setRomaji(String romaji) {
+        this.romaji = romaji;
+    }
+
+    public String getSound() {
+        return sound;
+    }
+
+    public void setSound(String sound) {
+        this.sound = sound;
+    }
+
     public String getKanj() {
         return kanj;
     }
 
     public void setKanj(String kanj) {
         this.kanj = kanj;
+    }
+
+    public String getHanViet() {
+        return hanViet;
+    }
+
+    public void setHanViet(String hanViet) {
+        this.hanViet = hanViet;
     }
 
     public String getNghia() {

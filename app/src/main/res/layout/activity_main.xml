@@ -90,11 +90,11 @@
         </android.support.v7.widget.RecyclerView>
 
         <LinearLayout
+            android:background="#1e000000"
             android:id="@+id/backdrop"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentBottom="true"
-            android:background="#b32b2b2b"
             android:orientation="vertical"
             android:visibility="gone">
 
@@ -105,61 +105,67 @@
     <RelativeLayout
         android:id="@+id/linear_layout_bottom_sheet"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:background="#f4f4f4"
+        android:layout_height="match_parent"
         android:elevation="16dp"
+
         app:behavior_hideable="true"
         app:behavior_peekHeight="0dp"
         app:layout_behavior="@string/bottom_sheet_behavior">
 
-        <LinearLayout
+        <RelativeLayout
+            android:layout_alignParentBottom="true"
+            android:background="#ffffff"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/btn_tv_tuvung"
+            android:layout_height="400dp">
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="40dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textColor="#223c6b"
-                android:textSize="35sp" />
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/btn_tv_kanj"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textColor="#898989"
-                android:textSize="20sp" />
+                <TextView
+                    android:id="@+id/btn_tv_tuvung"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="40dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textColor="#223c6b"
+                    android:textSize="35sp" />
 
-            <TextView
-                android:id="@+id/btn_tv_nghia"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textColor="#514e4e"
-                android:textSize="20sp" />
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/btn_tv_kanj"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textColor="#898989"
+                    android:textSize="20sp" />
 
-        <Button
-            android:id="@+id/btn_close_btm_sheet"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/ic_keyboard_arrow_down" />
+                <TextView
+                    android:id="@+id/btn_tv_nghia"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textColor="#514e4e"
+                    android:textSize="20sp" />
+            </LinearLayout>
 
-        <Button
-            android:id="@+id/btn_sound"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_margin="10dp"
-            android:background="@drawable/ic_volume" />
+            <Button
+                android:id="@+id/btn_close_btm_sheet"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/ic_keyboard_arrow_down" />
+
+            <Button
+                android:id="@+id/btn_sound"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/ic_volume" />
+        </RelativeLayout>
 
 
     </RelativeLayout>
