@@ -45,6 +45,7 @@ public class TuVungAdapter extends RecyclerView.Adapter<TuVungAdapter.ViewHolder
         holder.tvTuVung.setText(tuvung.getTuvung());
         holder.tvKanj.setText(tuvung.getKanj());
         holder.tvNghia.setText(tuvung.getNghia());
+        holder.tv_romaji.setText("(" + tuvung.getRomaji() + ")");
         holder.tvSTT.setText(index);
 
     }
@@ -74,6 +75,7 @@ public class TuVungAdapter extends RecyclerView.Adapter<TuVungAdapter.ViewHolder
         TextView tvSTT;
         TextView tvTuVung;
         TextView tvKanj;
+        TextView tv_romaji;
         TextView tvNghia;
 
         public ViewHolder(View itemView) {
@@ -82,6 +84,7 @@ public class TuVungAdapter extends RecyclerView.Adapter<TuVungAdapter.ViewHolder
             tvTuVung = (TextView) itemView.findViewById(R.id.tv_tuvung);
             tvKanj = (TextView) itemView.findViewById(R.id.tv_kanj);
             tvNghia = (TextView) itemView.findViewById(R.id.tv_nghia);
+            tv_romaji = (TextView) itemView.findViewById(R.id.tv_romaji);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

@@ -55,24 +55,36 @@
                 android:layout_marginRight="10dp"
                 android:background="@drawable/ic_play"
                 android:backgroundTint="#fff" />
+
             <SeekBar
-                android:layout_marginTop="-3dp"
-                  android:layout_below="@+id/tv_tenbai"
-                android:visibility="gone"
                 android:id="@+id/seekBar"
-                android:max="100"
-                android:background="@android:color/transparent"
-                android:progressTint="#af7ad1e9"
-                android:thumbTint="#af7ad1e9"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                />
+                android:layout_below="@+id/tv_tenbai"
+                android:layout_marginTop="-3dp"
+                android:background="@android:color/transparent"
+                android:max="100"
+                android:progressTint="#af7ad1e9"
+                android:thumbTint="#af7ad1e9"
+                android:visibility="gone" />
 
         </RelativeLayout>
+        <android.support.design.widget.TabLayout
+            android:id="@+id/main_tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@+id/l_toolbar"
+            android:background="?attr/colorPrimary"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
-
+        <android.support.v4.view.ViewPager
+            android:id="@+id/main_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/main_tab_layout"/>
 
         <android.support.v7.widget.RecyclerView
+            android:visibility="gone"
             android:id="@+id/rcv_tuvung"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -90,11 +102,11 @@
         </android.support.v7.widget.RecyclerView>
 
         <LinearLayout
-            android:background="#1e000000"
             android:id="@+id/backdrop"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentBottom="true"
+            android:background="#1e000000"
             android:orientation="vertical"
             android:visibility="gone">
 
@@ -113,33 +125,61 @@
         app:layout_behavior="@string/bottom_sheet_behavior">
 
         <RelativeLayout
-            android:layout_alignParentBottom="true"
-            android:background="#ffffff"
             android:layout_width="match_parent"
-            android:layout_height="400dp">
+            android:layout_height="400dp"
+            android:layout_alignParentBottom="true"
+            android:background="#ffffff">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/btn_tv_tuvung"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="40dp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:textColor="#223c6b"
-                    android:textSize="35sp" />
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/btn_tv_kanj"
+                    <TextView
+                        android:id="@+id/btn_tv_tuvung"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="40dp"
+                        android:textColor="#223c6b"
+                        android:textSize="35sp" />
+
+                    <TextView
+                        android:id="@+id/btn_tv_romaji"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#ccb09c"
+                        android:textSize="20sp" />
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:textColor="#898989"
-                    android:textSize="20sp" />
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/btn_tv_kanj"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#223c6b"
+                        android:textSize="35sp" />
+
+                    <TextView
+                        android:id="@+id/btn_tv_han_viet"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#514e4e"
+                        android:textSize="20sp" />
+                </LinearLayout>
+
 
                 <TextView
                     android:id="@+id/btn_tv_nghia"

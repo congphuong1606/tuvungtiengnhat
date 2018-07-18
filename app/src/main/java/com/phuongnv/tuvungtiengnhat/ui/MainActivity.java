@@ -11,6 +11,8 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -32,16 +34,19 @@ import com.nightonke.boommenu.BoomButtons.OnBMClickListener;
 import com.nightonke.boommenu.BoomMenuButton;
 import com.phuongnv.tuvungtiengnhat.R;
 import com.phuongnv.tuvungtiengnhat.adapter.BaiAdapter;
+import com.phuongnv.tuvungtiengnhat.adapter.MainPagerAdapter;
+import com.phuongnv.tuvungtiengnhat.adapter.PagerAdapter;
 import com.phuongnv.tuvungtiengnhat.adapter.TuVungAdapter;
 import com.phuongnv.tuvungtiengnhat.data.TuVung;
 import com.phuongnv.tuvungtiengnhat.event.CLickTuVungListenner;
+import com.phuongnv.tuvungtiengnhat.fragment.MainFragment1;
 import com.phuongnv.tuvungtiengnhat.utils.Database;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements CLickTuVungListenner, OnClickListener, MediaPlayer.OnCompletionListener, MediaPlayer.OnBufferingUpdateListener {
-    RecyclerView rcvTuVung;
+public class MainActivity extends AppCompatActivity  implements OnClickListener, MediaPlayer.OnCompletionListener, MediaPlayer.OnBufferingUpdateListener {
+    public static MainActivity screen;
     RecyclerView rcvBai;
     Button btnSound;
     Button btnCloseBS;
@@ -52,8 +57,6 @@ public class MainActivity extends AppCompatActivity implements CLickTuVungListen
     private TextView tvNghia;
     private LinearLayout backdrop;
     private SQLiteDatabase database;
-    private ArrayList<TuVung> tuVungs = new ArrayList<>();
-    private TuVungAdapter tuvungAdapter;
     private BaiAdapter baiAdapter;
     public static int index;
     public static MainActivity mainActivity;
@@ -66,6 +69,8 @@ public class MainActivity extends AppCompatActivity implements CLickTuVungListen
     private SeekBar seekBarProgress;
     private BoomMenuButton bmb;
     private TuVung currentTuVung;
+    private TextView tvHanViet;
+    private TextView tvRomaji;
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -73,7 +78,8 @@ public class MainActivity extends AppCompatActivity implements CLickTuVungListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        screen = this;
+        addTab();
         mediaPlayer = new MediaPlayer();
         mediaPlayer2 = new MediaPlayer();
         mediaPlayer.setOnBufferingUpdateListener(this);
@@ -91,6 +97,37 @@ public class MainActivity extends AppCompatActivity implements CLickTuVungListen
         setOnClick();
 
 
+
+
+    }
+
+    private void addTab() {
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.main_tab_layout);
+        tabLayout.addTab(tabLayout.newTab().setText("Tab 1"));
+        tabLayout.addTab(tabLayout.newTab().setText("Tab 2"));
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
+        final ViewPager viewPager = (ViewPager) findViewById(R.id.main_pager);
+        final MainPagerAdapter adapter = new MainPagerAdapter
+                (getSupportFragmentManager(), tabLayout.getTabCount());
+        viewPager.setAdapter(adapter);
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 
     private void setOnClick() {
@@ -170,9 +207,9 @@ public class MainActivity extends AppCompatActivity implements CLickTuVungListen
         if (!src.trim().equals("")) {
             if (mediaPlayer2.isPlaying()) {
                 mediaPlayer2.stop();
-            }else {
+            } else {
                 try {
-                    mediaPlayer2=new MediaPlayer();
+                    mediaPlayer2 = new MediaPlayer();
                     mediaPlayer2.setDataSource("http://jls.vnjpclub.com/" + src);
                     mediaPlayer2.prepare();
                 } catch (IOException e) {
@@ -218,11 +255,12 @@ public class MainActivity extends AppCompatActivity implements CLickTuVungListen
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void initView() {
-        rcvTuVung = (RecyclerView) findViewById(R.id.rcv_tuvung);
         rcvBai = (RecyclerView) findViewById(R.id.rcv_bai);
         tvTuVung = (TextView) findViewById(R.id.btn_tv_tuvung);
         tvkanj = (TextView) findViewById(R.id.btn_tv_kanj);
         tvNghia = (TextView) findViewById(R.id.btn_tv_nghia);
+        tvHanViet = (TextView) findViewById(R.id.btn_tv_han_viet);
+        tvRomaji = (TextView) findViewById(R.id.btn_tv_romaji);
         tvTenBai = (TextView) findViewById(R.id.tv_tenbai);
         backdrop = (LinearLayout) findViewById(R.id.backdrop);
         btnSound = (Button) findViewById(R.id.btn_sound);
@@ -291,11 +329,7 @@ public class MainActivity extends AppCompatActivity implements CLickTuVungListen
     }
 
     private void setData() {
-        rcvTuVung.setLayoutManager(new
-                GridLayoutManager(this, 1));
-        rcvTuVung.setHasFixedSize(true);
-        tuvungAdapter = new TuVungAdapter(tuVungs, this);
-        rcvTuVung.setAdapter(tuvungAdapter);
+
 
 
         rcvBai.setLayoutManager(new
@@ -308,35 +342,6 @@ public class MainActivity extends AppCompatActivity implements CLickTuVungListen
 
     }
 
-
-    private void readData(int c) {
-        database = Database.initDatabase(this, "minanonihongo.db");
-        Cursor cursor = database.rawQuery("select * from tuvung_mina where lesson = " + c, null);
-        tuVungs.clear();
-        if (cursor != null && cursor.getCount() > 0) {
-            if (cursor.moveToFirst()) {
-                do {
-
-                    int id = cursor.getInt(0);
-                    String tuvung = cursor.getString(1);
-                    String romaji = cursor.getString(2);
-                    String sound = cursor.getString(3);
-                    String kanj = cursor.getString(4);
-                    String hanViet = cursor.getString(5);
-                    String nghia = cursor.getString(6);
-                    int bai = cursor.getInt(7);
-                    tuVungs.add(new TuVung(id, tuvung, romaji, sound, kanj, hanViet, nghia, bai));
-                } while (cursor.moveToNext());
-            }
-        }
-        if (cursor != null) {
-            cursor.close();
-        }
-        tuvungAdapter.notifyDataSetChanged();
-        rcvTuVung.smoothScrollToPosition(0);
-
-
-    }
 
 
     public void notifyData(Integer integer) {
@@ -351,21 +356,22 @@ public class MainActivity extends AppCompatActivity implements CLickTuVungListen
             mediaPlayer = new MediaPlayer();
             mediaPlayer.setOnBufferingUpdateListener(this);
             mediaPlayer.setOnCompletionListener(this);
-            readData(index);
-
         }
 
 
     }
 
-    @Override
+
     public void onClick(TuVung tuVung) {
-        playSound(tuVung.getSound());
-        currentTuVung=tuVung;
+        currentTuVung = tuVung;
         tvTuVung.setText(tuVung.getTuvung());
         tvkanj.setText(tuVung.getKanj());
         tvNghia.setText(tuVung.getNghia());
+        tvRomaji.setText(tuVung.getRomaji());
+        tvHanViet.setText(tuVung.getHanViet());
         showBTMSHeet();
+        playSound(tuVung.getSound());
+
 
     }
 
