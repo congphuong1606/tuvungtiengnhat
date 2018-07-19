@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Handler;
@@ -153,19 +154,19 @@ public class MainActivity extends AppCompatActivity  implements OnClickListener,
             @Override
             public void onClick(View view) {
 
-                try {
-                    mediaPlayer2.reset();
-                    mediaPlayer2.setDataSource(currentTuVung.getSound());
-                    mediaPlayer2.prepare();
-                    mediaPlayer2.start();
-                } catch (IllegalArgumentException e) {
-                    e.printStackTrace();
-                } catch (IllegalStateException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-//                playSound(currentTuVung.getSound());
+//                try {
+//                    mediaPlayer2.reset();
+//                    mediaPlayer2.setDataSource(currentTuVung.getSound());
+//                    mediaPlayer2.prepare();
+//                    mediaPlayer2.start();
+//                } catch (IllegalArgumentException e) {
+//                    e.printStackTrace();
+//                } catch (IllegalStateException e) {
+//                    e.printStackTrace();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+                playSound(currentTuVung.getSound());
 //                Toast.makeText(MainActivity.this, "CHỨC NĂNG NÀY ĐANG ĐƯỢC PHÁT TRIỂN", Toast.LENGTH_LONG).show();
             }
         });
@@ -205,21 +206,47 @@ public class MainActivity extends AppCompatActivity  implements OnClickListener,
 
     private void playSound(String src) {
         if (!src.trim().equals("")) {
+            src="http://jls.vnjpclub.com/" +src.replace("\\","/");
+//            src="http://jls.vnjpclub.com/audio/minna/bai01/anata.mp3";
             if (mediaPlayer2.isPlaying()) {
                 mediaPlayer2.stop();
             } else {
                 try {
+                    mediaPlayer2.reset();
                     mediaPlayer2 = new MediaPlayer();
-                    mediaPlayer2.setDataSource("http://jls.vnjpclub.com/" + src);
-                    mediaPlayer2.prepare();
+                    mediaPlayer2.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
+                        @Override
+                        public void onBufferingUpdate(MediaPlayer mediaPlayer, int i) {
+
+                        }
+                    });
+                    mediaPlayer2.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                        @Override
+                        public void onCompletion(MediaPlayer mp) {
+                            mp.stop();
+                            mp.reset();
+                        }
+                    });
+                    mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                    mediaPlayer2.setDataSource( src);
+                    mediaPlayer2.prepareAsync();
+                    mediaPlayer2.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                        @Override
+                        public void onPrepared(MediaPlayer mediaPlayer) {
+                            mediaPlayer.start();
+                        }
+                    });
+
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                mediaPlayer2.start();
+
             }
 
         }
     }
+
 
     public void showBTMSHeet() {
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
@@ -383,6 +410,8 @@ public class MainActivity extends AppCompatActivity  implements OnClickListener,
 
     @Override
     public void onCompletion(MediaPlayer mediaPlayer) {
+        mediaPlayer.stop();
+        mediaPlayer.reset();
         seekBarProgress.setVisibility(View.GONE);
         btnSoundBai.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_play));
 
