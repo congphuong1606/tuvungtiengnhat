@@ -16,10 +16,15 @@ import com.phuongnv.tuvungtiengnhat.fragment.TabFragment3;
  */
 
 public class MainPagerAdapter extends FragmentStatePagerAdapter {
+    public static MainFragment1 tab1;
+    public static MainFragment2 tab2;
     int mNumOfTabs;
+
 
     public MainPagerAdapter(FragmentManager fm, int NumOfTabs) {
         super(fm);
+        tab1 = new MainFragment1();
+        tab2 = new MainFragment2();
         this.mNumOfTabs = NumOfTabs;
     }
 
@@ -28,10 +33,9 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
 
         switch (position) {
             case 0:
-                MainFragment1 tab1 = MainFragment1.newInstance();
                 return tab1;
             case 1:
-                MainFragment2 tab2 = new MainFragment2();
+
                 return tab2;
             default:
                 return null;

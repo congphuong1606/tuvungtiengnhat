@@ -89,11 +89,7 @@ public class MainActivity extends AppCompatActivity  implements OnClickListener,
         initView();
 
         setData();
-        notifyData(1);
-
         setBotomSheet();
-
-
         setOnClick();
 
 
@@ -356,6 +352,7 @@ public class MainActivity extends AppCompatActivity  implements OnClickListener,
             mediaPlayer = new MediaPlayer();
             mediaPlayer.setOnBufferingUpdateListener(this);
             mediaPlayer.setOnCompletionListener(this);
+            MainPagerAdapter.tab1.readData(integer);
         }
 
 

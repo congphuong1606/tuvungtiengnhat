@@ -30,16 +30,9 @@ public class MainFragment1 extends Fragment implements CLickTuVungListenner {
     private RecyclerView rcvTuVung;
     private TuVungAdapter tuvungAdapter;
     private ArrayList<TuVung> tuVungs = new ArrayList<>();
-    public static MainFragment1 mainFragment1;
     int index = 1;
     private SQLiteDatabase database;
 
-
-    public static MainFragment1 newInstance() {
-        MainFragment1 fragment = new MainFragment1();
-        mainFragment1 = fragment;
-        return fragment;
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -65,7 +58,7 @@ public class MainFragment1 extends Fragment implements CLickTuVungListenner {
 
     public void readData(int c) {
         index = c;
-        database = Database.initDatabase(getActivity(), "minanonihongo.db");
+        database = Database.initDatabase(MainActivity.screen, "minanonihongo.db");
         Cursor cursor = database.rawQuery("select * from tuvung_mina where lesson = " + c, null);
         tuVungs.clear();
         if (cursor != null && cursor.getCount() > 0) {
@@ -88,7 +81,6 @@ public class MainFragment1 extends Fragment implements CLickTuVungListenner {
         }
         tuvungAdapter.notifyDataSetChanged();
         rcvTuVung.smoothScrollToPosition(0);
-
     }
 
 
