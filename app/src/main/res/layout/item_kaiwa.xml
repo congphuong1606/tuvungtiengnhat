@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="5dp"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp">
+
+        <LinearLayout
+            android:id="@+id/lv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            android:gravity="center|left"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_user_japanese"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="毎日"
+                android:textColor="#5c5c5c"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_user_romaji"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="maiasa"
+                android:textColor="#ccb09c"
+                android:textSize="12sp" />
+
+
+        </LinearLayout>
+
+        <View
+
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/ln"
+            android:background="#f5f5f5" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/ln"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:gravity="center|left"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_kaiwa_japanese"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="毎日"
+                    android:textColor="#1d2c5e"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/tv_kaiwa_romaji"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="maiasa"
+                    android:textColor="#ccb09c"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_kaiwa_vietnammese"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="maiasa"
+                    android:textSize="16sp" />
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/ln"
+        android:background="#f5f5f5" />
+
+
+</LinearLayout>

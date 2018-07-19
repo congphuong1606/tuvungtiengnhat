@@ -55,21 +55,7 @@ public class TuVungAdapter extends RecyclerView.Adapter<TuVungAdapter.ViewHolder
         return tuvungs.size();
     }
 
-//    public void filter(String charText, ArrayList<TuVung> listSeach) {
-//        charText = charText.toLowerCase(Locale.getDefault());
-//        tuvungs.clear();
-//        if (charText.length() == 0) {
-//            tuvungs.addAll(listSeach);
-//        } else {
-//            for (TuVung l : listSeach) {
-//                if (l.getName().toLowerCase(Locale.getDefault()).contains(charText)) {
-//                    tuvungs.add(l);
-//                }
-//            }
-//        }
-//        notifyDataSetChanged();
-//
-//    }
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvSTT;

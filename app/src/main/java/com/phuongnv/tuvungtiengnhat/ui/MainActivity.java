@@ -38,6 +38,7 @@ import com.phuongnv.tuvungtiengnhat.adapter.BaiAdapter;
 import com.phuongnv.tuvungtiengnhat.adapter.MainPagerAdapter;
 import com.phuongnv.tuvungtiengnhat.adapter.PagerAdapter;
 import com.phuongnv.tuvungtiengnhat.adapter.TuVungAdapter;
+import com.phuongnv.tuvungtiengnhat.data.Kaiwa;
 import com.phuongnv.tuvungtiengnhat.data.TuVung;
 import com.phuongnv.tuvungtiengnhat.event.CLickTuVungListenner;
 import com.phuongnv.tuvungtiengnhat.fragment.MainFragment1;
@@ -46,7 +47,7 @@ import com.phuongnv.tuvungtiengnhat.utils.Database;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity  implements OnClickListener, MediaPlayer.OnCompletionListener, MediaPlayer.OnBufferingUpdateListener {
+public class MainActivity extends AppCompatActivity implements OnClickListener, MediaPlayer.OnCompletionListener, MediaPlayer.OnBufferingUpdateListener {
     public static MainActivity screen;
     RecyclerView rcvBai;
     Button btnSound;
@@ -59,7 +60,7 @@ public class MainActivity extends AppCompatActivity  implements OnClickListener,
     private LinearLayout backdrop;
     private SQLiteDatabase database;
     private BaiAdapter baiAdapter;
-    public static int index;
+    public static int index=1;
     public static MainActivity mainActivity;
     private BottomSheetBehavior<RelativeLayout> bottomSheetBehavior;
     private RelativeLayout bottomSheetLayout;
@@ -72,6 +73,7 @@ public class MainActivity extends AppCompatActivity  implements OnClickListener,
     private TuVung currentTuVung;
     private TextView tvHanViet;
     private TextView tvRomaji;
+    private ViewPager viewPager;
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -94,8 +96,6 @@ public class MainActivity extends AppCompatActivity  implements OnClickListener,
         setOnClick();
 
 
-
-
     }
 
     private void addTab() {
@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity  implements OnClickListener,
         tabLayout.addTab(tabLayout.newTab().setText("Tab 2"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        final ViewPager viewPager = (ViewPager) findViewById(R.id.main_pager);
+        viewPager = (ViewPager) findViewById(R.id.main_pager);
         final MainPagerAdapter adapter = new MainPagerAdapter
                 (getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(adapter);
@@ -149,27 +149,12 @@ public class MainActivity extends AppCompatActivity  implements OnClickListener,
         btnSound.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-//                try {
-//                    mediaPlayer2.reset();
-//                    mediaPlayer2.setDataSource(currentTuVung.getSound());
-//                    mediaPlayer2.prepare();
-//                    mediaPlayer2.start();
-//                } catch (IllegalArgumentException e) {
-//                    e.printStackTrace();
-//                } catch (IllegalStateException e) {
-//                    e.printStackTrace();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
                 playSound(currentTuVung.getSound());
-//                Toast.makeText(MainActivity.this, "CHỨC NĂNG NÀY ĐANG ĐƯỢC PHÁT TRIỂN", Toast.LENGTH_LONG).show();
             }
         });
         btnSoundBai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Toast.makeText(MainActivity.this,"CHỨC NĂNG NÀY ĐANG ĐƯỢC PHÁT TRIỂN",Toast.LENGTH_LONG).show();
                 playMp3(index);
 
             }
@@ -177,7 +162,19 @@ public class MainActivity extends AppCompatActivity  implements OnClickListener,
     }
 
     private void playMp3(int index) {
-        String src = "http://eup.mobi/apps/mina/listen/" + index + " - 1 - Kotoba.mp3";
+        int posi = viewPager.getCurrentItem();
+        String src = "";
+        if (posi == 0) {
+            src = "http://eup.mobi/apps/mina/listen/" + index + " - 1 - Kotoba.mp3";
+        } else {
+            if (index == 2) {
+                src = "http://eup.mobi/apps/mina/listen/2 - 5 - Kaiwa.mp3";
+            } else {
+                src = "http://eup.mobi/apps/mina/listen/" + index + " - 4 - Kaiwa.mp3";
+            }
+        }
+
+
         try {
             mediaPlayer.setDataSource(src); // setup song from https://www.hrupin.com/wp-content/uploads/mp3/testsong_20_sec.mp3 URL to mediaplayer data source
             mediaPlayer.prepare(); // you must call this method after setup the datasource in setDataSource method. After calling prepare() the instance of MediaPlayer starts load data from URL to internal buffer.
@@ -202,8 +199,7 @@ public class MainActivity extends AppCompatActivity  implements OnClickListener,
 
     private void playSound(String src) {
         if (!src.trim().equals("")) {
-            src="http://jls.vnjpclub.com/" +src.replace("\\","/");
-//            src="http://jls.vnjpclub.com/audio/minna/bai01/anata.mp3";
+            src = "http://jls.vnjpclub.com/" + src.replace("\\", "/");
             if (mediaPlayer2.isPlaying()) {
                 mediaPlayer2.stop();
             } else {
@@ -224,7 +220,7 @@ public class MainActivity extends AppCompatActivity  implements OnClickListener,
                         }
                     });
                     mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-                    mediaPlayer2.setDataSource( src);
+                    mediaPlayer2.setDataSource(src);
                     mediaPlayer2.prepareAsync();
                     mediaPlayer2.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                         @Override
@@ -354,7 +350,6 @@ public class MainActivity extends AppCompatActivity  implements OnClickListener,
     private void setData() {
 
 
-
         rcvBai.setLayoutManager(new
                 GridLayoutManager(this, 1));
         rcvBai.setHasFixedSize(true);
@@ -364,7 +359,6 @@ public class MainActivity extends AppCompatActivity  implements OnClickListener,
 
 
     }
-
 
 
     public void notifyData(Integer integer) {
@@ -380,6 +374,7 @@ public class MainActivity extends AppCompatActivity  implements OnClickListener,
             mediaPlayer.setOnBufferingUpdateListener(this);
             mediaPlayer.setOnCompletionListener(this);
             MainPagerAdapter.tab1.readData(integer);
+            MainPagerAdapter.tab2.readData(integer);
         }
 
 

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/backgorund"
+    android:background="@drawable/click"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="65dp"
         android:layout_centerInParent="true"
-        android:src="@drawable/ddd"
+        android:src="@drawable/x"
         app:civ_border_width="5dp"
         app:civ_border_color="@color/gray"
         android:layout_centerHorizontal="true"

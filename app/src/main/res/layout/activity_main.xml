@@ -56,39 +56,29 @@
                 android:background="@drawable/ic_play"
                 android:backgroundTint="#fff" />
 
-            <SeekBar
-                android:id="@+id/seekBar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_tenbai"
-                android:layout_marginTop="-3dp"
-                android:background="@android:color/transparent"
-                android:max="100"
-                android:progressTint="#af7ad1e9"
-                android:thumbTint="#af7ad1e9"
-                android:visibility="gone" />
 
         </RelativeLayout>
+
         <android.support.design.widget.TabLayout
             android:id="@+id/main_tab_layout"
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:layout_below="@+id/l_toolbar"
             android:background="?attr/colorPrimary"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
         <android.support.v4.view.ViewPager
             android:id="@+id/main_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/main_tab_layout"/>
+            android:layout_below="@id/main_tab_layout" />
 
         <android.support.v7.widget.RecyclerView
-            android:visibility="gone"
             android:id="@+id/rcv_tuvung"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/l_toolbar">
+            android:layout_below="@+id/l_toolbar"
+            android:visibility="gone">
 
         </android.support.v7.widget.RecyclerView>
 
@@ -111,6 +101,17 @@
             android:visibility="gone">
 
         </LinearLayout>
+
+        <SeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="#45000000"
+            android:max="100"
+            android:progressTint="#d55ac9e7"
+            android:thumbTint="#43c9ed"
+            android:visibility="gone" />
 
     </RelativeLayout>
     <!-- bottom sheet layout -->

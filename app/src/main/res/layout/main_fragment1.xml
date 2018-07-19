@@ -1,13 +1,21 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:background="#8dc1df"
+    android:background="#ffff"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.RecyclerView
+    <com.chauthai.overscroll.RecyclerViewBouncy
         android:id="@+id/mrcv_tuvung"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
 
-    </android.support.v7.widget.RecyclerView>
+        app:tension="1000"
+        app:friction="200"
+
+        app:gapLimit="220"
+        app:speedFactor="5"
+
+        app:viewCountEstimateSize="5"
+        app:maxAdapterSizeToEstimate="20"/>
 
 </FrameLayout>
