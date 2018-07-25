@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -49,6 +50,15 @@ public class MainFragment1 extends Fragment implements CLickTuVungListenner {
         tuvungAdapter = new TuVungAdapter(tuVungs, this);
         rcvTuVung.setAdapter(tuvungAdapter);
         readData(index);
+        rcvTuVung.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if(!MainActivity.screen.isRcvBaiVisible){
+                    MainActivity.screen.showHideRcvBai();
+                }
+            }
+        });
     }
 
     @Override

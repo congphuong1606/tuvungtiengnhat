@@ -1,40 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/click"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/click">
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_width="65dp"
-        android:layout_centerInParent="true"
-        android:src="@drawable/x"
-        app:civ_border_width="5dp"
-        app:civ_border_color="@color/gray"
+        android:layout_height="65dp"
+        android:layout_above="@+id/pr"
         android:layout_centerHorizontal="true"
-        android:layout_height="65dp" />
+        android:layout_marginBottom="50dp"
+        android:src="@drawable/x" />
+
     <ProgressBar
         android:id="@+id/pr"
-        android:layout_centerInParent="true"
-        android:layout_width="80dp"
-        android:layout_height="80dp" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
+
     <TextView
-        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/pr"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
         android:text="みんなの日本語"
         android:textColor="@color/colorPrimary"
-        android:layout_marginTop="10dp"
-        android:textSize="20sp"
+        android:textSize="20sp" />
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:textColor="#797878"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:gravity="center"
         android:paddingBottom="20dp"
-        android:text="PhuongCong copyright (c) 2018"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:orientation="horizontal">
+        <TextView
+            android:layout_marginLeft="5dp"
+            android:gravity="center|bottom"
+            android:layout_gravity="center|bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Phuong c"
+            android:textColor="#797878" />
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:layout_width="15dp"
+            app:civ_border_width="1dp"
+            app:civ_border_color="@color/gray"
+            android:layout_height="15dp"
+            android:src="@drawable/ddd" />
+        <TextView
 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ng copyright (c) 2018"
+            android:textColor="#797878" />
+
+
+
+    </LinearLayout>
 
 
 </RelativeLayout>

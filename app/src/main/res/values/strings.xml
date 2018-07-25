@@ -2,6 +2,7 @@
     <string name="app_name">Học tiếng nhật N4&amp;N5</string>
     <string name="dialog_action_ok">ok</string>
     <string name="dialog_error_title">fail</string>
+    <string name="menubai">...</string>
 
     <string name="ok">Đồng ý</string>
 </resources>

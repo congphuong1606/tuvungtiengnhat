@@ -1,45 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="70dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <View
-        android:id="@+id/v_top"
-        android:layout_above="@+id/cimv_bai"
-        android:layout_centerHorizontal="true"
-        android:background="#d9d9d9"
-        android:layout_width="3dp"
-        android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <LinearLayout
+        android:id="@+id/lnfacke"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="30dp">
 
-    </View>
-    <de.hdodenhof.circleimageview.CircleImageView
-        app:civ_border_color="#d9d9d9"
-        app:civ_border_width="2dp"
-        android:id="@+id/cimv_bai"
-        android:src="@drawable/click"
-        android:layout_width="30dp"
-        android:layout_centerInParent="true"
-        android:layout_height="30dp" />
-    <TextView
-        android:id="@+id/tv_number"
-        android:gravity="center"
-        android:text="1"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        android:textColor="#fff"
-        android:layout_width="30dp"
-        android:layout_centerInParent="true"
-        android:layout_height="30dp" />
-    <View
-        android:id="@+id/v_btm"
-        android:layout_below="@+id/cimv_bai"
-        android:layout_centerHorizontal="true"
-        android:background="#d9d9d9"
-        android:layout_width="3dp"
-        android:layout_height="match_parent">
+    </LinearLayout>
 
-    </View>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp">
 
-</RelativeLayout>
+        <View
+            android:id="@+id/v_top"
+            android:layout_width="3dp"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/cimv_bai"
+            android:layout_centerHorizontal="true"
+            android:background="#d9d9d9">
+
+        </View>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/cimv_bai"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/click"
+            app:civ_border_color="#d9d9d9"
+            app:civ_border_width="2dp" />
+
+        <TextView
+            android:id="@+id/tv_number"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="1"
+            android:textColor="#fff"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/v_btm"
+            android:layout_width="3dp"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/cimv_bai"
+            android:layout_centerHorizontal="true"
+            android:background="#d9d9d9">
+
+        </View>
+    </RelativeLayout>
+
+</LinearLayout>

@@ -56,6 +56,16 @@
                 android:background="@drawable/ic_play"
                 android:backgroundTint="#fff" />
 
+            <!--<Button-->
+            <!--android:id="@+id/btn_show_hide_rcv"-->
+            <!--android:layout_width="40dp"-->
+            <!--android:layout_height="40dp"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:background="@drawable/ic_menu"-->
+            <!--android:backgroundTint="#fff" />-->
+
 
         </RelativeLayout>
 
@@ -82,14 +92,23 @@
 
         </android.support.v7.widget.RecyclerView>
 
-        <android.support.v7.widget.RecyclerView
+        <com.chauthai.overscroll.RecyclerViewBouncy
             android:id="@+id/rcv_bai"
             android:layout_width="50dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/l_toolbar">
+            android:layout_below="@+id/btn_show_hide_rcv"
+            android:layout_marginTop="-30dp"
 
-        </android.support.v7.widget.RecyclerView>
+            app:friction="200"
+            app:gapLimit="220"
+
+            app:maxAdapterSizeToEstimate="20"
+            app:speedFactor="5"
+
+            app:tension="1000"
+            app:viewCountEstimateSize="5" />
+
 
         <LinearLayout
             android:id="@+id/backdrop"
@@ -101,6 +120,36 @@
             android:visibility="gone">
 
         </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/btn_show_hide_rcv"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/l_toolbar"
+            android:layout_marginTop="10dp"
+            android:background="@null">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerInParent="true"
+                android:background="@null"
+                android:src="#f2a379" />
+
+            <TextView
+                android:id="@+id/tv_current_index"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@null"
+                android:text="1"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
 
         <SeekBar
             android:id="@+id/seekBar"

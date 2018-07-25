@@ -6,10 +6,10 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.phuongnv.tuvungtiengnhat.fragment.MainFragment1;
 import com.phuongnv.tuvungtiengnhat.fragment.MainFragment2;
+import com.phuongnv.tuvungtiengnhat.fragment.MainFragment3;
 import com.phuongnv.tuvungtiengnhat.fragment.TabFragment1;
 import com.phuongnv.tuvungtiengnhat.fragment.TabFragment2;
 import com.phuongnv.tuvungtiengnhat.fragment.TabFragment3;
-
 
 /**
  * Created by Ominext on 7/12/2018.
@@ -18,6 +18,7 @@ import com.phuongnv.tuvungtiengnhat.fragment.TabFragment3;
 public class MainPagerAdapter extends FragmentStatePagerAdapter {
     public static MainFragment1 tab1;
     public static MainFragment2 tab2;
+    public static MainFragment3 tab3;
     int mNumOfTabs;
 
 
@@ -25,6 +26,7 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
         super(fm);
         tab1 = new MainFragment1();
         tab2 = new MainFragment2();
+        tab3 = new MainFragment3();
         this.mNumOfTabs = NumOfTabs;
     }
 
@@ -35,8 +37,9 @@ public class MainPagerAdapter extends FragmentStatePagerAdapter {
             case 0:
                 return tab1;
             case 1:
-
                 return tab2;
+            case 2:
+                return tab3;
             default:
                 return null;
         }

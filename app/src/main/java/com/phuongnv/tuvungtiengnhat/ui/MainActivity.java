@@ -21,6 +21,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -60,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     private LinearLayout backdrop;
     private SQLiteDatabase database;
     private BaiAdapter baiAdapter;
-    public static int index=1;
+    public static int index = 1;
     public static MainActivity mainActivity;
     private BottomSheetBehavior<RelativeLayout> bottomSheetBehavior;
     private RelativeLayout bottomSheetLayout;
@@ -73,7 +75,18 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     private TuVung currentTuVung;
     private TextView tvHanViet;
     private TextView tvRomaji;
+    private TextView tvCurrentBai;
     private ViewPager viewPager;
+
+    private Animation animShow, animHide;
+    //    private Button btnShowHideRcv;
+    private RelativeLayout btnShowHideRcv;
+    public static boolean isRcvBaiVisible = false;
+
+    private void initAnimation() {
+        animShow = AnimationUtils.loadAnimation(this, R.anim.view_show);
+        animHide = AnimationUtils.loadAnimation(this, R.anim.view_hide);
+    }
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -82,18 +95,36 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         screen = this;
+        initAnimation();
         addTab();
         mediaPlayer = new MediaPlayer();
         mediaPlayer2 = new MediaPlayer();
         mediaPlayer.setOnBufferingUpdateListener(this);
         mediaPlayer.setOnCompletionListener(this);
-
         mainActivity = this;
-        initView();
 
+        initView();
         setData();
         setBotomSheet();
         setOnClick();
+
+
+        new java.util.Timer().schedule(
+
+                new java.util.TimerTask() {
+                    @Override
+                    public void run() {
+                        // your code here, and if you have to refresh UI put this code:
+                        runOnUiThread(new Runnable() {
+                            public void run() {
+                                showHideRcvBai();
+
+                            }
+                        });
+                    }
+                },
+                5000
+        );
 
 
     }
@@ -102,27 +133,31 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.main_tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Tab 1"));
         tabLayout.addTab(tabLayout.newTab().setText("Tab 2"));
+        tabLayout.addTab(tabLayout.newTab().setText("Tab 3"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         viewPager = (ViewPager) findViewById(R.id.main_pager);
+
         final MainPagerAdapter adapter = new MainPagerAdapter
                 (getSupportFragmentManager(), tabLayout.getTabCount());
+        viewPager.setOffscreenPageLimit(3);
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
+                resetTitle();
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
+                Log.e("kkk", "h");
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
+                Log.e("kkk", "h");
             }
         });
     }
@@ -159,6 +194,26 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
             }
         });
+        btnShowHideRcv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showHideRcvBai();
+
+
+            }
+        });
+    }
+
+    public void showHideRcvBai() {
+        if (isRcvBaiVisible) {
+            isRcvBaiVisible = false;
+            rcvBai.setVisibility(View.VISIBLE);
+            rcvBai.startAnimation(animShow);
+        } else {
+            isRcvBaiVisible = true;
+            rcvBai.startAnimation(animHide);
+            rcvBai.setVisibility(View.GONE);
+        }
     }
 
     private void playMp3(int index) {
@@ -242,8 +297,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
     public void showBTMSHeet() {
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-
-
     }
 
     private void setBotomSheet() {
@@ -281,11 +334,14 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
         tvHanViet = (TextView) findViewById(R.id.btn_tv_han_viet);
         tvRomaji = (TextView) findViewById(R.id.btn_tv_romaji);
         tvTenBai = (TextView) findViewById(R.id.tv_tenbai);
+        tvCurrentBai = (TextView) findViewById(R.id.tv_current_index);
         backdrop = (LinearLayout) findViewById(R.id.backdrop);
         btnSound = (Button) findViewById(R.id.btn_sound);
         btnCloseBS = (Button) findViewById(R.id.btn_close_btm_sheet);
         btnSoundBai = (Button) findViewById(R.id.btn_sound_bai);
         seekBarProgress = (SeekBar) findViewById(R.id.seekBar);
+//        btnShowHideRcv = (Button) findViewById(R.id.btn_show_hide_rcv);
+        btnShowHideRcv = (RelativeLayout) findViewById(R.id.btn_show_hide_rcv);
 
 
         seekBarProgress.setMax(99); // It means 100% .0-99
@@ -348,8 +404,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
     }
 
     private void setData() {
-
-
         rcvBai.setLayoutManager(new
                 GridLayoutManager(this, 1));
         rcvBai.setHasFixedSize(true);
@@ -362,22 +416,48 @@ public class MainActivity extends AppCompatActivity implements OnClickListener, 
 
 
     public void notifyData(Integer integer) {
+        int a = index;
         if (index != integer) {
+            tvCurrentBai.setText(integer + "");
             index = integer;
             if (mediaPlayer.isPlaying()) {
                 btnSoundBai.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_play));
                 mediaPlayer.stop();
                 seekBarProgress.setVisibility(View.GONE);
             }
-            tvTenBai.setText("Từ vựng bài " + index);
+
             mediaPlayer = new MediaPlayer();
             mediaPlayer.setOnBufferingUpdateListener(this);
             mediaPlayer.setOnCompletionListener(this);
             MainPagerAdapter.tab1.readData(integer);
             MainPagerAdapter.tab2.readData(integer);
+            MainPagerAdapter.tab3.readData(integer);
+
+            BaiAdapter.bais.clear();
+            for (int i = 1; i <= 50; i++) {
+                BaiAdapter.bais.add(i);
+            }
+            baiAdapter.notifyDataSetChanged();
+            showHideRcvBai();
+            resetTitle();
+
         }
+    }
 
+    private void resetTitle() {
+        int curentItem = viewPager.getCurrentItem();
+        switch (curentItem) {
+            case 0:
+                tvTenBai.setText("Từ vựng bài " + index);
+                break;
+            case 1:
+                tvTenBai.setText("Hội thoại bài " + index);
+                break;
+            case 2:
+                tvTenBai.setText("Ngữ pháp bài " + index);
+                break;
 
+        }
     }
 
 

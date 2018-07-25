@@ -1,5 +1,4 @@
 package com.phuongnv.tuvungtiengnhat.adapter;
-
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -7,11 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.phuongnv.tuvungtiengnhat.R;
 import com.phuongnv.tuvungtiengnhat.data.Kaiwa;
-import com.phuongnv.tuvungtiengnhat.data.TuVung;
-import com.phuongnv.tuvungtiengnhat.event.CLickTuVungListenner;
 
 import java.util.ArrayList;
 

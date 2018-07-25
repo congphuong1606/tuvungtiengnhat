@@ -66,8 +66,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="毎日"
+                    android:textStyle="bold"
                     android:textColor="#1d2c5e"
-                    android:textSize="20sp" />
+                    android:textSize="22sp" />
 
                 <TextView
                     android:id="@+id/tv_kaiwa_romaji"
